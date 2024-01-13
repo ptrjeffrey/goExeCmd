@@ -8,8 +8,8 @@ import (
 )
 
 func help() {
-	fmt.Println("使用说明: dtTool.exe  <cmd> --file=<要替换的文件名>  --target=<目标位置>")
-	fmt.Println("支持的指令: cp  <cmd> --file=<要替换的文件名>")
+	fmt.Println("使用说明: dtTool.exe  --cmd=<cmd> --file=<要替换的文件名>  --target=<目标位置>")
+	fmt.Println("支持的指令: --cmd=cp --file=<要替换的文件名>  --target=<目标位置>")
 }
 
 func cp(cmStr string, sourcePtr *string, targetPtr *string) ([]byte, error) {
@@ -20,7 +20,9 @@ func cp(cmStr string, sourcePtr *string, targetPtr *string) ([]byte, error) {
 	// 输出解析后的参数值
 	fmt.Println("文件名称:", *sourcePtr)
 
-	dist_rlmt := "k3d-k3s-v-local-reg-server-0:/mnt/twinverse-edge-pv/rlmt-edge-api-1g"
+	dockerStr := "k3d-k3s-v-local-reg-server-0"
+
+	dist_rlmt := fmt.Sprintf("%s:%s", dockerStr, *targetPtr)
 
 	// str_dt := "k3d-k3s-volumn-local-reg-1-server-0:/data/twinverse-edge-pv/rlmt-mock-data-1g/config" //
 	cmd := exec.Command("docker", cmStr, *sourcePtr, dist_rlmt)
